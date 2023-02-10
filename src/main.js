@@ -1,30 +1,26 @@
-// query selector variables go here 👇
-var posterImage = document.querySelector('.poster-img')
-var posterTitle = document.querySelector('.poster-title')
-var posterQuote = document.querySelector('.poster-quote')
-var showRandomButton = document.querySelector('.show-random')
-var mainPoster = document.querySelector('.main-poster')
-var posterForm = document.querySelector('.poster-form')
-var showMain = document.querySelector('.show-main')
-var showMain2 = document.querySelector('.back-to-main')
+var selfImageInput = document.querySelector('#poster-image-url');
+var selfTitleInput = document.querySelector('#poster-title');
+var selfQuoteInput = document.querySelector('#poster-quote');
+var showOwnPoster = document.querySelector('.make-poster');
+var posterImage = document.querySelector('.poster-img');
+var posterTitle = document.querySelector('.poster-title');
+var posterQuote = document.querySelector('.poster-quote');
+var showRandomButton = document.querySelector('.show-random');
+var mainPoster = document.querySelector('.main-poster');
+var posterForm = document.querySelector('.poster-form');
+var showMain = document.querySelector('.show-main');
+var showMain2 = document.querySelector('.back-to-main');
+var makePosterButton = document.querySelector('.show-form');
+var ownPosterImg = document.querySelector('.poster-img');
+var ownPosterTitle = document.querySelector('.poster-title');
+var ownPosterQuote = document.querySelector('.poster-quote');
+var showSavedButton = document.querySelector('.show-saved');
+var savedPoster = document.querySelector('.saved-posters');
+var saveThisPoster = document.querySelector('.save-poster');
+var savedPosterGrid = document.querySelector('.saved-posters-grid');
+var savedPosters = [];
+var currentPoster;
 
-//make own poster section
-var makePosterButton = document.querySelector('.show-form')
-var ownPosterImg = document.querySelector('.poster-img')
-var ownPosterTitle = document.querySelector('.poster-title')
-var ownPosterQuote = document.querySelector('.poster-quote')
-console.log(ownPosterImg, ownPosterTitle, ownPosterQuote, 'line14')
-
-//show saved posters button
-var showSavedButton = document.querySelector('.show-saved')
-var savedPoster = document.querySelector('.saved-posters')
-var saveThisPoster = document.querySelector('.save-poster')
-
-var savedPosterGrid = document.querySelector('.saved-posters-grid')
-// console.log(makePosterButton, 'line 7')
-// console.log(ownPosterForm, 'line 9')
-
-// we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
   "./assets/bridge.jpg",
@@ -45,6 +41,7 @@ var images = [
   "./assets/tiger.jpg",
   "./assets/turtle.jpg"
 ];
+
 var titles = [
   "determination",
   "success",
@@ -82,6 +79,7 @@ var titles = [
   "understanding",
   "wisdom"
 ];
+
 var quotes = [
   "Don’t downgrade your dream just to fit your reality, upgrade your conviction to match your destiny.",
   "You are braver than you believe, stronger than you seem and smarter than you think.",
@@ -122,25 +120,18 @@ var quotes = [
   "Each person must live their life as a model for others.",
   "A champion is defined not by their wins but by how they can recover when they fall."
 ];
-var savedPosters = []
 
-
-
-var currentPoster;
-
-
-
-// event listeners go here 👇
- 
-window.addEventListener('load',displayRandomPoster)
-showRandomButton.addEventListener('click', displayRandomPoster)
-makePosterButton.addEventListener('click', ownPosterButton)
-showMain.addEventListener('click', returnToMain)
-showMain2.addEventListener('click', returnToMain)
-showSavedButton.addEventListener('click', showSavedPosters)
-saveThisPoster.addEventListener('click', savePosterArray)
-savedPosterGrid.addEventListener('dblclick', deletePoster)
- // functions and event handlers go here 👇
+window.addEventListener('load',displayRandomPoster);
+showRandomButton.addEventListener('click', displayRandomPoster);
+makePosterButton.addEventListener('click', ownPosterButton);
+showMain.addEventListener('click', returnToMain);
+showMain2.addEventListener('click', returnToMain);
+showSavedButton.addEventListener('click', showSavedPosters);
+saveThisPoster.addEventListener('click', savePosterArray);
+savedPosterGrid.addEventListener('dblclick', deletePoster);
+showOwnPoster.addEventListener('click', function(){
+createOwnPoster(event);
+})
 
 const hide = (element) => {
   element.classList.add("hidden");
@@ -150,158 +141,94 @@ const show = (element) => {
   element.classList.remove("hidden");
 }
 
-// on html files for this lines 22-36
-var selfImageInput = document.querySelector('#poster-image-url')
-var selfTitleInput = document.querySelector('#poster-title')
-var selfQuoteInput = document.querySelector('#poster-quote')
-var showOwnPoster = document.querySelector('.make-poster')
-//console.log(selfImageUrl, selfPosterTitle, selfPosterQuote, showOwnPoster, "line 165")
-
-showOwnPoster.addEventListener('click', function(){
-  createOwnPoster(event)
-})
-// this function should be able to register the inputs
-// these inputs then should be registered into a class!
-//'parameters in poster insinuation should be the new variables set
-// then inside of our Current poster class there should be 
-// variables equal to the parameters set?
-// the left value from 180 on = the 'linked' value
 function goHome() {
-  showMain.classList.remove('hidden')
-  posterForm.classList.add('hidden')
-  savedPoster.classList.add('hidden')
+  showMain.classList.remove('hidden');
+  posterForm.classList.add('hidden');
+  savedPoster.classList.add('hidden');
 }
+
 function createOwnPoster(event) {
-  event.preventDefault() 
-var userSelfImage = selfImageInput.value
-var userSelfTitle = selfTitleInput.value
-var userSelfQuote = selfQuoteInput.value
+  event.preventDefault();
+  var userSelfImage = selfImageInput.value;
+  var userSelfTitle = selfTitleInput.value;
+  var userSelfQuote = selfQuoteInput.value;
   
-currentPoster = new Poster(userSelfImage, userSelfTitle, userSelfQuote)
-var selfImage = document.querySelector('.poster-img')
-var selfTitle = document.querySelector('.poster-title')
-var selfQuote = document.querySelector('.poster-quote')
-
-selfImage.src = currentPoster.imageURL
-selfTitle.innerText = currentPoster.title
-selfQuote.innerText = currentPoster.quote
-
-images.push(userSelfImage)
-titles.push(userSelfTitle)
-quotes.push(userSelfQuote)
-returnToMain()
+  currentPoster = new Poster(userSelfImage, userSelfTitle, userSelfQuote);
+  var selfImage = document.querySelector('.poster-img');
+  var selfTitle = document.querySelector('.poster-title');
+  var selfQuote = document.querySelector('.poster-quote');
+  selfImage.src = currentPoster.imageURL;
+  selfTitle.innerText = currentPoster.title;
+  selfQuote.innerText = currentPoster.quote;
+  images.push(userSelfImage);
+  titles.push(userSelfTitle);
+  quotes.push(userSelfQuote);
+  returnToMain();
 }
-
-
 
 function savePosterArray() {
-  //  var posterImage = document.querySelector('.poster-img').src;
-  //  var posterTitle = document.querySelector('.poster-title').textContent;
-  //  var posterQuote = document.querySelector('.poster-quote').textContent;
- 
-  // currentPoster = new Poster(posterImage, posterTitle, posterQuote)
-  //console.log('line 210', currentPoster)
-if (!savedPosters.includes(currentPoster)) {
-  savedPosters.push(currentPoster)
+  if (!savedPosters.includes(currentPoster)) {
+  savedPosters.push(currentPoster);
   } else {
-  alert('This poster has already been saved!') 
+  alert('This poster has already been saved!'); 
   }
-  // console.log('line 212', savedPosters)
 }
+
 function showSavedGrid() {
-  var savedPosterHTML = ''
+  var savedPosterHTML = '';
   for (var i = 0; i < savedPosters.length; i++) {
-    //console.log('savedposters[i]', savedPosters[i].imageURL)
     savedPosterHTML += `
       <div class="mini-poster" id=${savedPosters[i].id}>      
         <img src=${savedPosters[i].imageURL} alt="nothin' to see here">
         <h2>${savedPosters[i].title}</h2>
         <h4>${savedPosters[i].quote}</h4>
       </div>
-    
-    `
+    `;
   }
-  savedPosterGrid.innerHTML = savedPosterHTML
+  savedPosterGrid.innerHTML = savedPosterHTML;
 }
-
-
-  
-
-
-
-
-
-// (we've provided one for you to get you started)!
 
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
 
-
-
-
-
 function displayRandomPoster() {
-  
   currentPoster = new Poster (images[getRandomIndex(images)],titles[getRandomIndex(titles)],
-  quotes[getRandomIndex(quotes)])
+  quotes[getRandomIndex(quotes)]);
   posterImage.src = currentPoster.imageURL;
   posterTitle.innerText = currentPoster.title;
   posterQuote.innerText = currentPoster.quote;
-  return currentPoster
+  return currentPoster;
 }
+
 function ownPosterButton() {
-  console.log("ive been clicked")
- hide(mainPoster)
- show(posterForm)
+  hide(mainPoster);
+  show(posterForm);
 }
 
 function returnToMain() {
-  hide(posterForm)
-  hide(savedPoster)
-  show(mainPoster)
+  hide(posterForm);
+  hide(savedPoster);
+  show(mainPoster);
 }
 
 function showSavedPosters() {
-  hide(mainPoster)
-  show(savedPoster)
-  showSavedGrid()
-//this is where the new function is iteration 3
-// looking at savedPosters array(for loop)
-// innerHTML will be used
+  hide(mainPoster);
+  show(savedPoster);
+  showSavedGrid();
 }
 
 function returnToMainFromSavedPosters() {
-  hide(savedPoster)
-  show(mainPoster)
+  hide(savedPoster);
+  show(mainPoster);
 }
-// for(i = 0; i < titles.length; i++) {
-  //   var randomIndex = getRandomIndex(titles);
-  //   if (!savedPosters.includes(titles[randomIndex])) { // i dont think this will be exactly how we store images
-//     // i think it will be similar as the store
-//     savedPosters.push(titles[randomIndex])
-//   }
-// }
-// console.log(savedPosters, "titles line 130")
-
-// console.log('line 116', randomPosterImage)
-// for(i = 0; i < images.length; i++) {
-//   var randomIndex = getRandomIndex(images);
-//   if (!savedPosters.includes(images[randomIndex])) { // to make sure there arent multiples
-//     savedPosters.push(images[randomIndex])
-//   }
-// }
-// console.log(savedPosters, "images line 120")
-
-
 
 function deletePoster(event) {
-  var splicePoster = event.target.id
-  console.log(splicePoster, "line 305")
+  var splicePoster = event.target.closest("div");
+  event.target.closest("div").remove();
   for (i = 0; i < savedPosters.length; i++) {
-if (savedPosters[i].id === splicePoster) {
-  savedPosters.splice(i,1)
+  if (savedPosters[i].id == splicePoster.id) {
+  savedPosters.splice(i,1);
 }
-}
-  
+} 
 }
